@@ -1,13 +1,13 @@
 var express = require("express");
 const url = require('url');
 var bodyParser = require("body-parser");
-const Profesor = require('./profesores');
+const Estudiante = require('./estudiantes');
 const passport = require('passport');
 const axios = require('axios').default;
 const multer  = require('multer');
 const { uploadFile, getFileStream, getTemporaryUrl } = require("./s3");
 const fs = require("fs");
-const util = require("util");
+const util = require("util"); 
 const unlinkFile = util.promisify(fs.unlink);
 
 //swagger documentation config.
@@ -19,7 +19,7 @@ const swaggerSpec = {
     definition: {
         openapi: "3.0.0",
         info: {
-            title: "Api de Profesores",
+            title: "Api de Estudiantes",
             version: "1.0.0"
         }/*,
         servers: [
@@ -38,7 +38,7 @@ const swaggerSpec = {
 
 require('./passport');
 
-var BASE_API_PATH = "/apiprofesores/v1";
+var BASE_API_PATH = "/apiestudiantes/v1";
 
 var app = express();
 //app.use(bodyParser.json());
@@ -131,7 +131,7 @@ app.get(BASE_API_PATH+"/initialize",
 
         //inserción del director
         var identificacion = "000000";
-        var profesorDirector = {
+        var estudianteDirector = {
             "identificacion": identificacion,
             "nombre": "Director",
             "password": "123456",
@@ -139,7 +139,7 @@ app.get(BASE_API_PATH+"/initialize",
         };
         var filtro = {"identificacion": identificacion};
 
-        Profesor.findOneAndUpdate(filtro, {$set: profesorDirector}, {upsert: true}, function(error, profesor) {
+        Profesor.findOneAndUpdate(filtro, {$set: estudianteDirector}, {upsert: true}, function(error, estudiante) {
             if(error)
             {
                 console.log(Date() + " - "+error);
@@ -185,12 +185,12 @@ app.get(BASE_API_PATH+"/healthz", (request, response) => {
  *      security:
  *        - ApiKeyAuth: []
  */
-app.get(BASE_API_PATH+"/profesores",
+app.get(BASE_API_PATH+"/estudiantes",
     passport.authenticate("localapikey", {session: false}),
     (request, response) => {
-    console.log(Date() + "GET - /profesores");
+    console.log(Date() + "GET - /estudiantes");
 
-    Profesor.find({}, function(error, resultados) {
+    Estudiante.find({}, function(error, resultados) {
         if(error)
         {
             console.log(Date() + " - "+error);
@@ -198,8 +198,8 @@ app.get(BASE_API_PATH+"/profesores",
         }
         else
         {
-            response.send(resultados.map((profesor) => {
-                return profesor.limpiar();
+            response.send(resultados.map((estudiante) => {
+                return estudiante.limpiar();
             }));
         }
     });
@@ -237,16 +237,16 @@ app.get(BASE_API_PATH+"/profesores",
  *        - ApiKeyAuth: []
  */
 //obtener un profesor por id
-app.get(BASE_API_PATH+"/profesores/:id", 
+app.get(BASE_API_PATH+"/estudiantes/:id", 
     passport.authenticate("localapikey", {session: false}),
     (request, response) => {
-    console.log(Date() + "GET - /profesores/"+request.params.id);
+    console.log(Date() + "GET - /estudiantes/"+request.params.id);
 
-    Profesor.findById(request.params.id).then((profesor) => {
-        if (!profesor) {
+    Estudiante.findById(request.params.id).then((estudiante) => {
+        if (!estudiante) {
             return response.status(404).send();
         }
-        response.send(profesor);
+        response.send(estudiante);
     })
     .catch((error) => {
         response.status(500).send(error);
@@ -284,16 +284,16 @@ app.get(BASE_API_PATH+"/profesores/:id",
  *        - ApiKeyAuth: []
  */
 //obtener un profesor por identificación
-app.get(BASE_API_PATH+"/profesores.byIdentificacion/:identificacion", 
+app.get(BASE_API_PATH+"/estudiantes.byIdentificacion/:identificacion", 
     passport.authenticate("localapikey", {session: false}),
     (request, response) => {
-    console.log(Date() + "GET - /profesores.byIdentificacion/"+request.params.identificacion);
+    console.log(Date() + "GET - /estudiantes.byIdentificacion/"+request.params.identificacion);
 
-    Profesor.findOne({identificacion: request.params.identificacion}).then((profesor) => {
-        if (!profesor) {
+    Estudiante.findOne({identificacion: request.params.identificacion}).then((estudiante) => {
+        if (!estudiante) {
             return response.status(404).send();
         }
-        response.send(profesor);
+        response.send(estudiante);
     })
     .catch((error) => {
         response.status(500).send(error);
@@ -331,15 +331,15 @@ app.get(BASE_API_PATH+"/profesores.byIdentificacion/:identificacion",
 
 //el body llega vacío con postman pero funciona haciendo el post desde terminal
 //curl -i -X POST "http://localhost:3000/apiprofesores/v1/profesores" -H "Content-Type: application/json" -d "{\"identificacion\":\"444444\",\"nombre\":\"Perencejo\",\"editable\":true}"
-app.post(BASE_API_PATH+"/profesores",
+app.post(BASE_API_PATH+"/estudiantes",
     passport.authenticate("localapikey", {session: false}),
     (request, response) => {
-    console.log(Date() + "POST - /profesores");
-    var profesor = request.body;
+    console.log(Date() + "POST - /estudiantes");
+    var estudiante = request.body;
     // console.log("profesor");
     // console.log(profesor);
-    var filtro = {"identificacion": profesor.identificacion};
-    Profesor.count(filtro, function (err, count) {
+    var filtro = {"identificacion": estudiante.identificacion};
+    Estudiante.count(filtro, function (err, count) {
         //console.log(count);
         if(count > 0)
         {
@@ -354,7 +354,7 @@ app.post(BASE_API_PATH+"/profesores",
         }
         else
         {
-            Profesor.create(profesor, function(error) {
+            Estudiante.create(estudiante, function(error) {
                 if(error)
                 {
                     console.log(Date() + " - "+error);
@@ -386,8 +386,8 @@ app.post(BASE_API_PATH+"/profesores",
                         }
                         else
                         {
-                            response.status(201).send(resultados.map((profesor) => {
-                                return profesor.limpiar();
+                            response.status(201).send(resultados.map((estudiante) => {
+                                return estudiante.limpiar();
                             }));
                         }
                     });
@@ -437,33 +437,33 @@ app.post(BASE_API_PATH+"/profesores",
  *      security:
  *        - ApiKeyAuth: []
  */
-app.patch(BASE_API_PATH+"/profesores/:id", 
+app.patch(BASE_API_PATH+"/estudiantes/:id", 
     passport.authenticate("localapikey", {session: false}),
     (request, response) => {
-    console.log(Date() + "PATCH - /profesores");
+    console.log(Date() + "PATCH - /estudiantes");
     var id = request.params.id;
     var datos = request.body;
     // console.log("id "+id);
     // console.log("datos "+datos);
 
-    Profesor.count({"identificacion": datos.identificacion, _id: { $ne: id }}, function (err, count) {
+    Estudiante.count({"identificacion": datos.identificacion, _id: { $ne: id }}, function (err, count) {
         // console.log(count);
         if(count > 0)
         {
             //return response.status(409).send({message: "No se pudo guardar el cambio. Existe otro profesor con esa identificación."});
-            response.statusMessage = "No se pudo guardar el cambio. Existe otro profesor con esa identificación.";
+            response.statusMessage = "No se pudo guardar el cambio. Existe otro estudiante con esa identificación.";
             response.status(409).end();
             return response;
         }
         else
         {
-            Profesor.findByIdAndUpdate(id, datos, {new: true})
-            .then((profesor) => {
-                if (!profesor) 
+            Estudiante.findByIdAndUpdate(id, datos, {new: true})
+            .then((estudiante) => {
+                if (!estudiante) 
                 {
                     return response.status(404).send();
                 }
-                response.send(profesor);
+                response.send(estudiante);
             })
             .catch((error) => {
                 response.status(500).send(error);
@@ -504,19 +504,19 @@ app.patch(BASE_API_PATH+"/profesores/:id",
  *        - ApiKeyAuth: []
  */
 //obtener un profesor por id
-app.delete(BASE_API_PATH+"/profesores/:id",
+app.delete(BASE_API_PATH+"/estudiantes/:id",
     passport.authenticate("localapikey", {session: false}),
     (request, response) => {
-    console.log(Date() + "DELETE - /profesores");
+    console.log(Date() + "DELETE - /estudiantes");
     // var profesor_id = request.params.id;
     // console.log("profesor_id");
     // console.log(profesor_id);
 
-    Profesor.findByIdAndDelete(request.params.id).then((profesor) => {
-        if (!profesor) {
+    Estudiante.findByIdAndDelete(request.params.id).then((estudiante) => {
+        if (!estudiante) {
             return response.status(404).send();
         }
-        response.send(profesor);
+        response.send(estudiante);
     }).catch((error) => {
         response.status(500).send(error);
     });
@@ -617,14 +617,14 @@ app.get(BASE_API_PATH+"/password/",
  *      security:
  *        - ApiKeyAuth: []
  */
-app.post(BASE_API_PATH+"/profesores/:id/identificacion",
+app.post(BASE_API_PATH+"/estudiantes/:id/identificacion",
     [passport.authenticate("localapikey", {session: false}), upload.single('identificacion')],
     async (request, response) => {
-    console.log(Date() + "POST - /profesores/:id/identificacion");
+    console.log(Date() + "POST - /estudiantes/:id/identificacion");
 
-    var profesor_id = request.params.id;
-    console.log("profesor_id");
-    console.log(profesor_id);
+    var estudiante_id = request.params.id;
+    console.log("estudiante_id");
+    console.log(estudiante_id);
     console.log("request.file");
     console.log(request.file);
 
@@ -641,13 +641,13 @@ app.post(BASE_API_PATH+"/profesores/:id/identificacion",
 
     await unlinkFile(myFile.path);
 
-    Profesor.findByIdAndUpdate(profesor_id, {imagenIdentificacion: result.key}, {new: true})
-    .then((profesor) => {
-        if (!profesor) 
+    Estudiante.findByIdAndUpdate(estudiante_id, {imagenIdentificacion: result.key}, {new: true})
+    .then((estudiante) => {
+        if (!estudiante) 
         {
             return response.status(404).send();
         }
-        response.send(profesor);
+        response.send(estudiante);
     })
     .catch((error) => {
         response.status(500).send(error);
@@ -686,27 +686,27 @@ app.post(BASE_API_PATH+"/profesores/:id/identificacion",
  *      security:
  *        - ApiKeyAuth: []
  */
-app.get(BASE_API_PATH+"/profesores/:id/identificacion",
+app.get(BASE_API_PATH+"/estudiantes/:id/identificacion",
     [passport.authenticate("localapikey", {session: false}), upload.single('identificacion')],
     async (request, response) => {
-    console.log(Date() + "GET - /profesores/:id/identificacion");
+    console.log(Date() + "GET - /estudiantes/:id/identificacion");
 
-    var profesor_id = request.params.id;
-    console.log("profesor_id");
-    console.log(profesor_id);
+    var estudiante_id = request.params.id;
+    console.log("estudiante_id");
+    console.log(estudiante_id);
 
     //const readStream = getFileStream("2387ff84e4496876121bebc1d287d90f.jpg");
     //readStream.pipe(response);
 
-    Profesor.findById(profesor_id).then((profesor) => {
+    Estudiante.findById(estudiante_id).then((estudiante) => {
 
-        if (!profesor) {
+        if (!estudiante) {
             return response.status(404).send();
         }
         // console.log("profesor");
         // console.log(profesor);
 
-        const fileKey = profesor.imagenIdentificacion;
+        const fileKey = estudiante.imagenIdentificacion;
         console.log("fileKey");
         console.log(fileKey);
 

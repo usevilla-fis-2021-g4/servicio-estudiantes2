@@ -1,15 +1,15 @@
 const S3 = require("aws-sdk/clients/s3");
 const fs = require('fs');
 
-const AWS_BUCKET_NAME_SERVICIO_PROFESORES = "usevilla-fis-2021-g4-servicio-profesores";
-const AWS_BUCKET_REGION_SERVICIO_PROFESORES = "eu-west-2";
-const AWS_ACCESS_KEY_SERVICIO_PROFESORES = process.env.AWS_ACCESS_KEY_SERVICIO_PROFESORES;
-const AWS_SECRET_ACCESS_KEY_SERVICIO_PROFESORES = process.env.AWS_SECRET_ACCESS_KEY_SERVICIO_PROFESORES;
+const AWS_BUCKET_NAME_SERVICIO_ESTUDIANTES = "usevilla-fis-2021-g4-servicio-estudiantes";
+const AWS_BUCKET_REGION_SERVICIO_ESTUDIANTES = "eu-west-2";
+const AWS_ACCESS_KEY_SERVICIO_ESTUDIANTES = process.env.AWS_ACCESS_KEY_SERVICIO_ESTUDIANTES;
+const AWS_SECRET_ACCESS_KEY_SERVICIO_ESTUDIANTES = process.env.AWS_SECRET_ACCESS_KEY_SERVICIO_ESTUDIANTES;
 
 const s3Instance = new S3({
-    region: AWS_BUCKET_REGION_SERVICIO_PROFESORES,
-    accessKeyId: AWS_ACCESS_KEY_SERVICIO_PROFESORES,
-    secretAccessKey: AWS_SECRET_ACCESS_KEY_SERVICIO_PROFESORES
+    region: AWS_BUCKET_REGION_SERVICIO_ESTUDIANTES,
+    accessKeyId: AWS_ACCESS_KEY_SERVICIO_ESTUDIANTES,
+    secretAccessKey: AWS_SECRET_ACCESS_KEY_SERVICIO_ESTUDIANTES
 });
 
 //uploads a file to s3
@@ -21,7 +21,7 @@ function uploadFile(file)
     var filename = file.filename+"."+extension;
 
     const uploadParams = {
-        Bucket: AWS_BUCKET_NAME_SERVICIO_PROFESORES,
+        Bucket: AWS_BUCKET_NAME_SERVICIO_ESTUDIANTES,
         Body: fileStream,
         Key: filename
     };
@@ -36,7 +36,7 @@ function getFileStream(fileKey)
 {
     const downloadParams = {
         Key: fileKey,
-        Bucket: AWS_BUCKET_NAME_SERVICIO_PROFESORES
+        Bucket: AWS_BUCKET_NAME_SERVICIO_ESTUDIANTES
     };
     return s3Instance.getObject(downloadParams).createReadStream();
 }
@@ -47,7 +47,7 @@ function getTemporaryUrl(fileKey)
 {
     const downloadParams = {
         Key: fileKey,
-        Bucket: AWS_BUCKET_NAME_SERVICIO_PROFESORES,
+        Bucket: AWS_BUCKET_NAME_SERVICIO_ESTUDIANTES,
         Expires: 60
     };
 
