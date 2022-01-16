@@ -1,4 +1,4 @@
-const Profesor = require("../../profesores");
+const Estudiante = require("../../estudiantes");
 const mongoose = require("mongoose");
 const dbConnect = require("../../db");
 
@@ -8,24 +8,24 @@ describe("DB connection", () => {
         return dbConnect();
     });
     beforeEach((done) => {
-        Profesor.deleteMany({}, (error) => {
+        Estudiante.deleteMany({}, (error) => {
             done();
         });
     });
 
-    it("Writes a profesor in the DB", (done) => {
+    it("Writes a estudiante in the DB", (done) => {
         
-        const newProfesor = new Profesor({
+        const newEstudiante = new Estudiante({
             "identificacion": "222222",
             "nombre": "Dos",
             "password": "222222",
             "editable": true
         });
 
-        newProfesor.save((error, profesor) => {
+        newEstudiante.save((error, estudiante) => {
             expect(error).toBeNull();
-            Profesor.find({}, (error2, profesores) => {
-                expect(profesores).toBeArrayOfSize(1);
+            Estudiante.find({}, (error2, estudiantes) => {
+                expect(estudiantes).toBeArrayOfSize(1);
                 done();
             })
         });
