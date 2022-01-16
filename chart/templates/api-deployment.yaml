@@ -1,36 +1,37 @@
+#change total
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: apiprofesores
+  name: apiestudiantes
   labels:
-    {{- include "profesores.labels" . | nindent 4 }}
-    app.kubernetes.io/component: apiprofesores
+    {{- include "estudiantes.labels" . | nindent 4 }}
+    app.kubernetes.io/component: apiestudiantes
 spec:
-  replicas: {{ .Values.apiprofesores.replicaCount }}
+  replicas: {{ .Values.apiestudiantes.replicaCount }}
   selector:
     matchLabels:
-      app.kubernetes.io/name: apiprofesores
+      app.kubernetes.io/name: apiestudiantes
       app.kubernetes.io/instance: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: apiprofesores
+        app.kubernetes.io/name: apiestudiantes
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
       terminationGracePeriodSeconds: 0
       containers:
-        - name: apiprofesores
-          image: {{ .Values.apiprofesores.image }}:{{ .Values.tag }}
+        - name: apiestudiantes
+          image: {{ .Values.apiestudiantes.image }}:{{ .Values.tag }}
           env:
-            - name: MONGO_URL_SERVICIO_PROFESORES
+            - name: MONGO_URL_SERVICIO_ESTUDIANTES
               valueFrom:
                 secretKeyRef:
-                  name: mongodbservicioprofesores
+                  name: mongodbservicioestudiantes
                   key: mongo_url
-            - name: AWS_ACCESS_KEY_SERVICIO_PROFESORES
-              value: {{ .Values.AWS_ACCESS_KEY_SERVICIO_PROFESORES }}
-            - name: AWS_SECRET_ACCESS_KEY_SERVICIO_PROFESORES
-              value: {{ .Values.AWS_SECRET_ACCESS_KEY_SERVICIO_PROFESORES }}
+            - name: AWS_ACCESS_KEY_SERVICIO_ESTUDIANTES
+              value: {{ .Values.AWS_ACCESS_KEY_SERVICIO_ESTUDIANTES }}
+            - name: AWS_SECRET_ACCESS_KEY_SERVICIO_ESTUDIANTES
+              value: {{ .Values.AWS_SECRET_ACCESS_KEY_SERVICIO_ESTUDIANTES }}
           ports:
             - name: http
               containerPort: 3000
@@ -39,11 +40,11 @@ spec:
             initialDelaySeconds: 10
             periodSeconds: 1
             httpGet:
-              path: /apiprofesores/v1/healthz
+              path: /apiestudiantes/v1/healthz
               port: 3000
           livenessProbe:
             initialDelaySeconds: 10
             periodSeconds: 1
             httpGet:
-              path: /apiprofesores/v1/healthz
+              path: /apiestudiantes/v1/healthz
               port: 3000

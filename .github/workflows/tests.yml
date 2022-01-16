@@ -1,3 +1,4 @@
+#Change 42
 name: Node.js CI
 
 on:
@@ -38,4 +39,4 @@ jobs:
     - run: npm test
     - run: npm run integration
       env:
-        MONGO_URL_SERVICIO_PROFESORES: "mongodb://localhost/test"
+        MONGO_URL_SERVICIO_ESTUDIANTES: "mongodb://localhost/test"
