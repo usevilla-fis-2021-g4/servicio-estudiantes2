@@ -18,8 +18,7 @@ describe("DB connection", () => {
         const newEstudiante = new Estudiante({
             "identificacion": "222222",
             "nombre": "Dos",
-            "password": "222222",
-            "editable": true
+        
         });
 
         newEstudiante.save((error, estudiante) => {

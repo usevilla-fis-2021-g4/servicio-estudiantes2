@@ -8,24 +8,12 @@ const estudianteSchema = new mongoose.Schema({
     nombre: {
         type: String,
         required: true
-    },
-    password: {
-        type: String,
-        required: true
-    },
-    editable: {
-        type: Boolean,
-        required: true
-    },
-    imagenIdentificacion: {
-        type: String,
-        required: false
-    },
+    }
 });
 
 estudianteSchema.methods.limpiar = function(){
     //return this;
-    return {_id: this._id, identificacion: this.identificacion, nombre: this.nombre, editable: this.editable, imagenIdentificacion: this.imagenIdentificacion};
+    return {_id: this._id, identificacion: this.identificacion, nombre: this.nombre};
 }
 
 const Estudiante = mongoose.model('Estudiante', estudianteSchema);

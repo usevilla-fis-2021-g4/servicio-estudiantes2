@@ -34,16 +34,12 @@ describe("Api Estudiantes", () => {
             var estudiantes = [
                 new Estudiante({
                     "identificacion": "000000",
-                    "nombre": "Cero",
-                    "password": "000000",
-                    "editable": true
+                    "nombre": "Cero"
                 })
                 ,
                 new Estudiante({
                     "identificacion": "111111",
-                    "nombre": "Uno",
-                    "password": "111111",
-                    "editable": true
+                    "nombre": "Uno"
                 })
             ];
 
@@ -82,9 +78,7 @@ describe("Api Estudiantes", () => {
 
         let nuevoEstudiante = {
             "identificacion": "111111",
-            "nombre": "Uno",
-            "password": "111111",
-            "editable": true
+            "nombre": "Uno"
         };
 
         let filtro = {"identificacion": "111111"};

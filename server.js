@@ -66,30 +66,12 @@ app.use("/api-doc", swaggerUI.serve, swaggerUI.setup(swaggerJsDoc(swaggerSpec)))
  *        nombre:
  *          type: string
  *          description: El nombre del estudiante.
- *        password:
- *          type: string
- *          description: La contraseña del estudiante.
- *        editable:
- *          type: boolean
- *          description: Si se puede o no editar estudiante.
- *        imagenIdentificacion:
- *          type: string
- *          description: La contraseña del estudiante.
  *      required:
  *        - identificacion
  *        - nombre
- *        - password
  *      example:
  *        identificacion: 999999
  *        nombre: John Doe
- *        password: 123456
- *        editable: true
- *    Password:
- *      type: object
- *      properties:
- *        password:
- *          type: string
- *          description: Una contraseña.
  *    UrlArchivo:
  *      type: object
  *      properties:
@@ -133,9 +115,7 @@ app.get(BASE_API_PATH+"/initialize",
         var identificacion = "000000";
         var estudianteDirector = {
             "identificacion": identificacion,
-            "nombre": "Director",
-            "password": "123456",
-            "editable": false
+            "nombre": "Director"
         };
         var filtro = {"identificacion": identificacion};
 
