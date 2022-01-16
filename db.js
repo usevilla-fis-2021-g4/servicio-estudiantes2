@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-const DB_URL = (process.env.MONGO_URL_SERVICIO_PROFESORES || 'mongodb://db/test');//local y mongo atlas
-//const DB_URL = process.env.MONGO_URL_SERVICIO_PROFESORES || "mongodb://mongodb:27017";//okteto
+const DB_URL = (process.env.MONGO_URL_SERVICIO_ESTUDIANTES || 'mongodb://db/test');//local y mongo atlas
+//const DB_URL = process.env.MONGO_URL_SERVICIO_ESTUDIANTES || "mongodb://mongodb:27017";//okteto
 
 const dbConnect = function(){
     const db = mongoose.connection;

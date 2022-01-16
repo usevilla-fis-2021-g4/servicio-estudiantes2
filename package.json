@@ -1,19 +1,19 @@
 {
-  "name": "profesores",
+  "name": "estudiantes",
   "version": "1.0.0",
-  "description": "Api Profesores",
+  "description": "Api Estudiantes",
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/usevilla-fis-2021-g4/servicio-profesores.git"
+    "url": "https://github.com/usevilla-fis-2021-g4/servicio-estudiantes.git"
   },
-  "homepage": "https://github.com/usevilla-fis-2021-g4/servicio-profesores",
+  "homepage": "https://github.com/usevilla-fis-2021-g4/servicio-estudiantes",
   "scripts": {
     "start": "node index.js",
     "test": "jest",
     "integration": "jest -c jest.integration.config.js"
   },
-  "author": "Juan Carlos Estrada Nieto y Brian Enríquez",
+  "author": "BEA - JJP",
   "license": "ISC",
   "dependencies": {
     "aws-sdk": "^2.1048.0",

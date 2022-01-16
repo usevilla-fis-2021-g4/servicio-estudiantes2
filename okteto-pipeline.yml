@@ -1,4 +1,4 @@
 deploy:
-  - okteto build -t okteto.dev/apiprofesores:${OKTETO_GIT_COMMIT} .
-  - helm upgrade --install servicio-profesores chart --set tag=${OKTETO_GIT_COMMIT} --set mongoUrl=$MONGO_URL_SERVICIO_PROFESORES --set AWS_ACCESS_KEY_SERVICIO_PROFESORES=$AWS_ACCESS_KEY_SERVICIO_PROFESORES --set AWS_SECRET_ACCESS_KEY_SERVICIO_PROFESORES=$AWS_SECRET_ACCESS_KEY_SERVICIO_PROFESORES
+  - okteto build -t okteto.dev/apiestudiantes:${OKTETO_GIT_COMMIT} .
+  - helm upgrade --install servicio-estudiantes chart --set tag=${OKTETO_GIT_COMMIT} --set mongoUrl=$MONGO_URL_SERVICIO_ESTUDIANTES --set AWS_ACCESS_KEY_SERVICIO_ESTUDIANTES=$AWS_ACCESS_KEY_SERVICIO_PROFESORES --set AWS_SECRET_ACCESS_KEY_SERVICIO_ESTUDIANTES=$AWS_SECRET_ACCESS_KEY_SERVICIO_ESTUDIANTES
 #  - okteto stack deploy -f mongodb-compose.yml --wait

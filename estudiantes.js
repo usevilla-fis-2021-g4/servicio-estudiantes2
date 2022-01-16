@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const profesorSchema = new mongoose.Schema({
+const estudianteSchema = new mongoose.Schema({
     identificacion: {
         type: String,
         required: true
@@ -23,11 +23,11 @@ const profesorSchema = new mongoose.Schema({
     },
 });
 
-profesorSchema.methods.limpiar = function(){
+estudianteSchema.methods.limpiar = function(){
     //return this;
     return {_id: this._id, identificacion: this.identificacion, nombre: this.nombre, editable: this.editable, imagenIdentificacion: this.imagenIdentificacion};
 }
 
-const Profesor = mongoose.model('Profesor', profesorSchema);
+const Estudiante = mongoose.model('Estudiante', estudianteSchema);
 
-module.exports = Profesor;
+module.exports = Estudiante;
