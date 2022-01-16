@@ -1,0 +1,36 @@
+{
+  "name": "profesores",
+  "version": "1.0.0",
+  "description": "Api Profesores",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/usevilla-fis-2021-g4/servicio-profesores.git"
+  },
+  "homepage": "https://github.com/usevilla-fis-2021-g4/servicio-profesores",
+  "scripts": {
+    "start": "node index.js",
+    "test": "jest",
+    "integration": "jest -c jest.integration.config.js"
+  },
+  "author": "Juan Carlos Estrada Nieto y Brian Enríquez",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.1048.0",
+    "axios": "^0.24.0",
+    "express": "^4.17.1",
+    "mongoose": "^6.0.14",
+    "multer": "^1.4.4",
+    "nedb": "^1.8.0",
+    "passport": "^0.5.2",
+    "passport-localapikey-update": "^0.6.0",
+    "swagger-jsdoc": "^6.1.0",
+    "swagger-ui-express": "^4.3.0",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "jest": "^27.4.5",
+    "jest-extended": "^1.2.0",
+    "supertest": "^6.1.6"
+  }
+}

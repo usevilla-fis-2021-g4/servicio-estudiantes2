@@ -1,0 +1,15 @@
+name: profesores
+services:
+  mongodb:
+    image: mongo
+    restart: always
+    expose: 
+      - '27017'
+    ports:
+      - '27017:27017'
+    environment:
+      MONGO_INITDB_DATABASE: ProfesoresDatabase
+    volumes:
+      - mongodata:/data/db
+volumes:
+  mongodata: 

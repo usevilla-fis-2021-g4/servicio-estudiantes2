@@ -1,0 +1,31 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Okteto Deployment
+
+# Controls when the workflow will run
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  test:
+    uses: usevilla-fis-2021-g4/servicio-profesores/.github/workflows/tests.yml@master
+  
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Okteto Login
+        uses: okteto/login@latest
+        with:
+          # Your okteto API token
+          token: ${{ secrets.OKTETO_TOKEN }}
+          
+      - name: Okteto Pipeline
+        uses: okteto/pipeline@latest
+        with:
+          name: servicio-profesores
+          namespace: usevilla-fis-2021-g4-juancarlosestradanieto
