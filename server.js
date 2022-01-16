@@ -72,12 +72,6 @@ app.use("/api-doc", swaggerUI.serve, swaggerUI.setup(swaggerJsDoc(swaggerSpec)))
  *      example:
  *        identificacion: 999999
  *        nombre: John Doe
- *    UrlArchivo:
- *      type: object
- *      properties:
- *        url:
- *          type: string
- *          description: La url temporal firmada del archivo en S3.
  * 
  *  securitySchemes:
  *    ApiKeyAuth:       # arbitrary name for the security scheme
