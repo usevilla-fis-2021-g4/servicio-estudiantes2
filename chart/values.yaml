@@ -1,0 +1,10 @@
+tag: dev
+
+apiestudiantes:
+  replicaCount: 1
+  image: okteto.dev/apiestudiantes
+
+mongoUrl: mongodb://mongo/test
+
+AWS_ACCESS_KEY_SERVICIO_ESTUDIANTES: sedeberiasobreescribirconelhelmdeloktetopipeline
+AWS_SECRET_ACCESS_KEY_SERVICIO_ESTUDIANTES: sedeberiasobreescribirconelhelmdeloktetopipeline

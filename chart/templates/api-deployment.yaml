@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: apiestudiantes
+  labels:
+    {{- include "estudiantes.labels" . | nindent 4 }}
+    app.kubernetes.io/component: apiestudiantes
+spec:
+  replicas: {{ .Values.apiestudiantes.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: apiestudiantes
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: apiestudiantes
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+      terminationGracePeriodSeconds: 0
+      containers:
+        - name: apiestudiantes
+          image: {{ .Values.apiestudiantes.image }}:{{ .Values.tag }}
+          env:
+            - name: MONGO_URL_SERVICIO_ESTUDIANTES
+              valueFrom:
+                secretKeyRef:
+                  name: mongodbservicioestudiantes
+                  key: mongo_url
+            - name: AWS_ACCESS_KEY_SERVICIO_ESTUDIANTES
+              value: {{ .Values.AWS_ACCESS_KEY_SERVICIO_ESTUDIANTES }}
+            - name: AWS_SECRET_ACCESS_KEY_SERVICIO_ESTUDIANTES
+              value: {{ .Values.AWS_SECRET_ACCESS_KEY_SERVICIO_ESTUDIANTES }}
+          ports:
+            - name: http
+              containerPort: 3000
+              protocol: TCP
+          readinessProbe:
+            initialDelaySeconds: 10
+            periodSeconds: 1
+            httpGet:
+              path: /apiestudiantes/v1/healthz
+              port: 3000
+          livenessProbe:
+            initialDelaySeconds: 10
+            periodSeconds: 1
+            httpGet:
+              path: /apiestudiantes/v1/healthz
+              port: 3000
